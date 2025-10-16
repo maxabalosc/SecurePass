@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SecurePass — Login</title>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body data-page="login">
+  <main class="container">
+
+    <header class="header-brand">
+      <div class="brand-left">
+        <svg class="brand-lock" width="44" height="44" viewBox="0 0 24 24" fill="none" aria-hidden="true"
+             xmlns="http://www.w3.org/2000/svg">
+          <rect x="3" y="9" width="18" height="12" rx="2" fill="#0f0f0f" stroke="#D4AF37" stroke-width="1"/>
+          <path d="M7 9V7a5 5 0 0 1 10 0v2" stroke="#D4AF37" stroke-width="1" stroke-linecap="round"
+                stroke-linejoin="round"/>
+        </svg>
+        <div class="brand-text">
+          <div class="brand-title" data-i18n="brand_title">SECUREPASS</div>
+          <div class="brand-sub" data-i18n="brand_sub">Secure access</div>
+        </div>
+      </div>
+
+      <div class="lang-switch">
+        <select id="langSelect" aria-label="Language select">
+          <option value="en">English</option>
+          <option value="es">Español</option>
+          <option value="zh">简体中文</option>
+        </select>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2 id="loginTitle" class="card-title" data-i18n="login_title">Sign in</h2>
+
+      <div class="field">
+        <label class="muted" data-i18n="label_welcome">Welcome</label>
+        <div id="greeting" class="readonly" style="font-size:16px; font-weight:700;">—</div>
+      </div>
+
+      <div class="field">
+        <label for="password" data-i18n="label_password">Password</label>
+        <div class="input-row">
+          <input id="password" class="input-control" type="password" placeholder="" data-i18n-placeholder="ph_password" />
+          <button id="togglePwd" class="btn-icon" aria-label="toggle password">👁️</button>
+        </div>
+        <div class="pwd-meta"><div class="muted" data-i18n="hint_min8">Minimum 8 characters.</div></div>
+      </div>
+
+      <div class="actions">
+        <button id="btnLogin" class="btn primary" data-i18n="btn_login">Sign in</button>
+      </div>
+
+      <div id="msg" class="msg" aria-live="polite"></div>
+    </section>
+
+    <div class="fingerprint-wrap">
+      <button id="btnFingerprint" class="fingerprint-btn" aria-label="Fingerprint login">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.13 2 5 5.13 5 9v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M12 22c4.97 0 9-4.03 9-9v-1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M7 12c0-2.76 2.24-5 5-5s5 2.24 5 5v1" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                stroke-linejoin="round"/>
+          <path d="M12 7v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <div class="fingerprint-label" data-i18n="fingerprint_label"></div>
+    </div>
+
+  </main>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
