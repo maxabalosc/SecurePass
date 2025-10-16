@@ -11,13 +11,13 @@ const translations = {
   en: {
     brand_title: "SECUREPASS", brand_sub: "Secure access",
     register_title: "Create your account",
-    login_title: "Sign in", label_username: "Username", label_password: "Password",
-    ph_username: "Username", ph_password: "Password", hint_min8: "Minimum 8 characters.",
+    login_title: "Sign in", label_username: "Username", label_password: "Password",label_regPassword2: "Re-enter password",
+    ph_username: "Username", ph_password: "Password",ph_password2: "Re-enter password" ,hint_min8: "Minimum 8 characters.",
     btn_login: "Sign in", btn_register: "Register", fingerprint_label: "Sign in with fingerprint",
     tutorial_title: "Welcome to SecurePass", tutorial_p1: "First, register a user using the Register button. Afterwards you can sign in and enable fingerprint.",
     got_it: "Got it", dont_show: "Don't show again",
     msg_complete_fields: "Please complete username and password", msg_no_user: "No user registered. Please register first.",
-    msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 4 chars).",
+    msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 4 chars).",msg_pw_not_same: "Passwords are not identical.",msg_pw_not_special:"Password must contain at least 1 special character",
     msg_credentials_incorrect: "Incorrect credentials", msg_auth_failed: "Authentication failed",
     home_change: "Settings", home_passkeys: "View passkeys", home_logout: "Sign out",
     passkeys_title: "Stored passkeys", passkeys_add: "Register passkey", back: "Back",
@@ -36,13 +36,13 @@ const translations = {
   es: {
     brand_title: "SECUREPASS", brand_sub: "Acceso seguro",
     register_title: "Crea tu cuenta",
-    login_title: "Iniciar sesión", label_username: "Usuario", label_password: "Contraseña",
-    ph_username: "Usuario", ph_password: "Contraseña", hint_min8: "Mínimo 8 caracteres.",
+    login_title: "Iniciar sesión", label_username: "Usuario", label_password: "Contraseña", label_regPassword2: "Confirme contraseña",
+    ph_username: "Usuario", ph_password: "Contraseña",ph_password2: "Confirme contraseña", hint_min8: "Mínimo 8 caracteres.",
     btn_login: "Ingresar", btn_register: "Registrar", fingerprint_label: "Iniciar con huella",
     tutorial_title: "Bienvenido a SecurePass", tutorial_p1: "Primero registra un usuario usando el botón Registrar. Después podrás ingresar y habilitar huella.",
     got_it: "Entendido", dont_show: "No mostrar nuevamente",
     msg_complete_fields: "Completa usuario y contraseña", msg_no_user: "No hay usuario registrado. Regístrate primero.",
-    msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 4 caracteres).",
+    msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 4 caracteres).",msg_pw_not_same: "Contraseñas no coinciden.",msg_pw_not_special:"La contraseña debe contener al menos 1 caracter especial",
     msg_credentials_incorrect: "Credenciales incorrectas", msg_auth_failed: "Autenticación fallida",
     home_change: "Configuración", home_passkeys: "Ver passkeys", home_logout: "Cerrar sesión",
     passkeys_title: "Passkeys guardadas", passkeys_add: "Registrar passkey", back: "Volver",
@@ -61,13 +61,13 @@ const translations = {
   zh: {
     brand_title: "SECUREPASS", brand_sub: "安全访问",
     register_title: "创建帐户",
-    login_title: "登录", label_username: "用户名", label_password: "密码",
-    ph_username: "用户名", ph_password: "密码", hint_min8: "至少 8 个字符。",
+    login_title: "登录", label_username: "用户名", label_password: "密码",label_regPassword2: "确认密码",
+    ph_username: "用户名", ph_password: "密码", hint_min8: "至少 8 个字符。",ph_password2: "确认密码",
     btn_login: "登录", btn_register: "注册", fingerprint_label: "使用指纹登录",
     tutorial_title: "欢迎使用 SecurePass", tutorial_p1: "首先使用“注册”按钮注册用户。之后您可以登录并启用指纹。",
     got_it: "知道了", dont_show: "不再显示",
     msg_complete_fields: "请填写用户名和密码", msg_no_user: "未注册用户。请先注册。",
-    msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 4 个字符）。",
+    msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 4 个字符）。", msg_pw_not_same: "密码不匹配。",msg_pw_not_special:"密码必须至少包含 1 个特殊字符",
     msg_credentials_incorrect: "凭证错误", msg_auth_failed: "身份验证失败",
     home_change: "设置", home_passkeys: "查看 passkeys", home_logout: "登出",
     passkeys_title: "已保存的 passkeys", passkeys_add: "注册 passkey", back: "返回",
@@ -143,7 +143,6 @@ async function sha256Base64(text){
 
 function getStoredUser(){ return localStorage.getItem(KEY_USER); }
 function getStoredHash(){ return localStorage.getItem(KEY_HASH); }
-function isBioEnabled(){ return localStorage.getItem(KEY_BIO) === 'true'; }
 function getPasskeys(){ try{ return JSON.parse(localStorage.getItem(KEY_PASSKEYS) || '[]'); }catch(e){ return []; } }
 function savePasskeys(arr){ localStorage.setItem(KEY_PASSKEYS, JSON.stringify(arr)); }
 
@@ -187,6 +186,8 @@ function initRegisterPage(){
   const btnRegisterOnly = $('btnRegisterOnly');
   const regUser = $('regUsername');
   const regPass = $('regPassword');
+  const regPass2 = $('regPassword2'); //confirmacion de contraseña
+  const specialChar = $("/[!@#$%^&*()_+=\[\]{};':\\|,.<>\/?]/</>");
   const msg = $('registerMsg');
 
   showTutorialModal();
@@ -194,8 +195,11 @@ function initRegisterPage(){
   btnRegisterOnly.addEventListener('click', async () => {
     const u = regUser.value.trim();
     const p = regPass.value;
+    const p2 = regPass2.value;
     if(!u || !p){ msg.textContent = t('msg_complete_fields'); return; }
     if(p.length < 4){ msg.textContent = t('msg_short_pw'); return; }
+    if(p != p2){ msg.textContent = t('msg_pw_not_same'); return; }//if para verificar contraseña 
+    if(!p.includes(specialChar)){ msg.textContent = t('msg_pw_not_special'); return; }//if para verificar caracteres especiales
     const hash = await sha256Base64(p);
     localStorage.setItem(KEY_USER, u);
     localStorage.setItem(KEY_HASH, hash);
