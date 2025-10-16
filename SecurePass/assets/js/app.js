@@ -23,7 +23,7 @@ const translations = {
     passkeys_title: "Stored passkeys", passkeys_add: "Register passkey", back: "Back",
     passkeys_no: "No passkeys stored.", passkeys_delete_confirm: "Delete passkey?",
     settings_title: "Change password & fingerprint", label_user: "User", label_newpassword: "New password",
-    ph_newpassword: "New password", label_enable_bio: "Enable biometric authentication", btn_save: "Save",
+    ph_newpassword: "New password", btn_save: "Save",
     btn_cancel: "Cancel", settings_saved: "Changes saved",
     label_add_bio: "Add biometric", btn_configure_bio: "Configure biometric", biometric_title: "Biometric configuration",
     biometric_placeholder: "This is a placeholder for biometric configuration. When implemented natively this screen will call the OS biometric enrollment/verification APIs.",
@@ -177,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if(page === 'home') initHomePage();
   if(page === 'passkeys') initPasskeysPage();
   if(page === 'settings') initSettingsPage();
-  if(page === 'biometric') initBiometricPage();
 });
 
 
@@ -236,18 +235,6 @@ function initLoginPage(){
     togglePwd.textContent = passwordInput.type==='password' ? '👁':'🛇';
   });
 
-  if(btnFingerprint) btnFingerprint.addEventListener('click', async () => {
-    if(!isBioEnabled()){
-      showMsgOnPage(msgSelector,'no_biometric_registered');
-      return;
-    }
-    const attempt = prompt(t('fingerprint_label') + ': ' + t('ph_password'));
-    if(!attempt) return;
-    const h = await sha256Base64(attempt);
-    if(h === getStoredHash()) goTo('home.html'); else showMsgOnPage(msgSelector,'msg_auth_failed');
-  });
-}
-
 
 function initHomePage(){
   const su = getStoredUser();
@@ -291,23 +278,6 @@ window.removePasskey = function(idx){
   const arr = getPasskeys(); if(idx<0||idx>=arr.length) return; if(!confirm(t('passkeys_delete_confirm'))) return; arr.splice(idx,1); savePasskeys(arr); location.reload();
 };
 
-
-function initSettingsPage(){
-  const su = getStoredUser(); if(!su){ goTo('register.html'); return; }
-  const currentUser = $('currentUser'); if(currentUser) currentUser.value = su;
-  const chk = $('enableBiometric'); if(chk) chk.checked = isBioEnabled();
-  const btnSave = $('btnSave'); const newPwd = $('newPassword'); const msg = $('settingsMsg');
-  const btnGotoBiometric = $('btnGotoBiometric'); const bioStatus = $('bioStatus');
-
-  if(bioStatus) bioStatus.textContent = isBioEnabled() ? t('biometric_configured') : t('no_biometric_registered');
-
-  if(btnGotoBiometric){
-    btnGotoBiometric.addEventListener('click', (e) => {
-      e.preventDefault();
-      goTo('biometric.html');
-    });
-  }
-
   if(btnSave) btnSave.addEventListener('click', async () => {
     const np = newPwd.value.trim();
     const enable = chk.checked;
@@ -328,18 +298,4 @@ function initSettingsPage(){
   });
 }
 
-function initBiometricPage(){
-  if(!getStoredUser()){ goTo('register.html'); return; }
 
-  const btnConfigure = $('btnConfigureBiometric');
-  const bioMsg = $('bioMsg');
-
-  if(btnConfigure){
-    btnConfigure.addEventListener('click', async () => {
-      localStorage.setItem(KEY_BIO, 'true');
-      bioMsg.textContent = t('biometric_configured');
-      bioMsg.style.color = '#4CAF50';
-      setTimeout(()=> goTo('settings.html'), 900);
-    });
-  }
-}
