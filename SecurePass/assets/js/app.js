@@ -19,8 +19,8 @@ const translations = {
     msg_complete_fields: "Please complete username and password", msg_no_user: "No user registered. Please register first.",
     msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 4 chars).",
     msg_credentials_incorrect: "Incorrect credentials", msg_auth_failed: "Authentication failed",
-    home_change: "Change password / fingerprint", home_passkeys: "View passkeys", home_logout: "Sign out",
-    passkeys_title: "Stored passkeys", passkeys_add: "Register passkey (demo)", back: "Back",
+    home_change: "Settings", home_passkeys: "View passkeys", home_logout: "Sign out",
+    passkeys_title: "Stored passkeys", passkeys_add: "Register passkey", back: "Back",
     passkeys_no: "No passkeys stored.", passkeys_delete_confirm: "Delete passkey?",
     settings_title: "Change password & fingerprint", label_user: "User", label_newpassword: "New password",
     ph_newpassword: "New password", label_enable_bio: "Enable biometric authentication", btn_save: "Save",
@@ -44,8 +44,8 @@ const translations = {
     msg_complete_fields: "Completa usuario y contraseña", msg_no_user: "No hay usuario registrado. Regístrate primero.",
     msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 4 caracteres).",
     msg_credentials_incorrect: "Credenciales incorrectas", msg_auth_failed: "Autenticación fallida",
-    home_change: "Cambiar contraseña / huella", home_passkeys: "Ver passkeys", home_logout: "Cerrar sesión",
-    passkeys_title: "Passkeys guardadas", passkeys_add: "Registrar passkey (demo)", back: "Volver",
+    home_change: "Configuración", home_passkeys: "Ver passkeys", home_logout: "Cerrar sesión",
+    passkeys_title: "Passkeys guardadas", passkeys_add: "Registrar passkey", back: "Volver",
     passkeys_no: "No hay passkeys registradas.", passkeys_delete_confirm: "¿Eliminar passkey?",
     settings_title: "Cambiar contraseña y huella", label_user: "Usuario", label_newpassword: "Nueva contraseña",
     ph_newpassword: "Nueva contraseña", label_enable_bio: "Habilitar autenticación biométrica", btn_save: "Guardar",
@@ -69,8 +69,8 @@ const translations = {
     msg_complete_fields: "请填写用户名和密码", msg_no_user: "未注册用户。请先注册。",
     msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 4 个字符）。",
     msg_credentials_incorrect: "凭证错误", msg_auth_failed: "身份验证失败",
-    home_change: "更改密码 / 指纹", home_passkeys: "查看 passkeys", home_logout: "登出",
-    passkeys_title: "已保存的 passkeys", passkeys_add: "注册 passkey（演示）", back: "返回",
+    home_change: "设置", home_passkeys: "查看 passkeys", home_logout: "登出",
+    passkeys_title: "已保存的 passkeys", passkeys_add: "注册 passkey", back: "返回",
     passkeys_no: "没有已保存的 passkeys。", passkeys_delete_confirm: "删除该 passkey？",
     settings_title: "更改密码与指纹", label_user: "用户名", label_newpassword: "新密码",
     ph_newpassword: "新密码", label_enable_bio: "启用生物识别认证", btn_save: "保存",
@@ -233,7 +233,7 @@ function initLoginPage(){
 
   if(togglePwd) togglePwd.addEventListener('click', ()=> {
     passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
-    togglePwd.textContent = passwordInput.type==='password' ? '👁️':'🙈';
+    togglePwd.textContent = passwordInput.type==='password' ? '👁':'🛇';
   });
 
   if(btnFingerprint) btnFingerprint.addEventListener('click', async () => {
