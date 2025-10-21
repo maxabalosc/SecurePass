@@ -17,13 +17,13 @@ const translations = {
     tutorial_title: "Welcome to SecurePass", tutorial_p1: "First, register a user using the Register button. Afterwards you can sign in and enable fingerprint.",
     got_it: "Got it", dont_show: "Don't show again",
     msg_complete_fields: "Please complete username and password", msg_no_user: "No user registered. Please register first.",
-    msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 4 chars).",msg_pw_not_same: "Passwords are not identical.",msg_pw_not_special:"Password must contain at least 1 special character",
+    msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 4 chars).",msg_pw_not_same: "Passwords are not identical.",msg_pw_not_special:"Password must contain at least 1 special character.",msg_uppercase_required:"Password must contain at least 1 uppercase required.",
     msg_credentials_incorrect: "Incorrect credentials", msg_auth_failed: "Authentication failed",
     home_change: "Settings", home_passkeys: "View passkeys", home_logout: "Sign out",
     passkeys_title: "Stored passkeys", passkeys_add: "Register passkey", back: "Back",
     passkeys_no: "No passkeys stored.", passkeys_delete_confirm: "Delete passkey?",
-    settings_title: "Change password & fingerprint", label_user: "User", label_newpassword: "New password",
-    ph_newpassword: "New password", label_enable_bio: "Enable biometric authentication", btn_save: "Save",
+    settings_title: "Change password & fingerprint", label_user: "User", label_newpassword: "New password",label_currentpassword: "Current Password",ph_currentpassword:"Current password",
+    ph_newpassword: "New password", label_enable_bio: "Enable biometric authentication",msg_enter_current_pw:"Please enter your current password" ,msg_current_pw_wrong:"Try entering your current password again",msg_current_pw_required:"Enter your current password",msg_password_changed_success:"Password has been succesfully changed",btn_save: "Save",
     btn_cancel: "Cancel", settings_saved: "Changes saved",
     label_add_bio: "Add biometric", btn_configure_bio: "Configure biometric", biometric_title: "Biometric configuration",
     biometric_placeholder: "This is a placeholder for biometric configuration. When implemented natively this screen will call the OS biometric enrollment/verification APIs.",
@@ -42,13 +42,13 @@ const translations = {
     tutorial_title: "Bienvenido a SecurePass", tutorial_p1: "Primero registra un usuario usando el botón Registrar. Después podrás ingresar y habilitar huella.",
     got_it: "Entendido", dont_show: "No mostrar nuevamente",
     msg_complete_fields: "Completa usuario y contraseña", msg_no_user: "No hay usuario registrado. Regístrate primero.",
-    msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 4 caracteres).",msg_pw_not_same: "Contraseñas no coinciden.",msg_pw_not_special:"La contraseña debe contener al menos 1 caracter especial",
+    msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 4 caracteres).",msg_pw_not_same: "Contraseñas no coinciden.",msg_pw_not_special:"La contraseña debe contener al menos 1 caracter especial",msg_uppercase_required:"La contraseña debe contener al menos 1 mayuscula.",
     msg_credentials_incorrect: "Credenciales incorrectas", msg_auth_failed: "Autenticación fallida",
     home_change: "Configuración", home_passkeys: "Ver passkeys", home_logout: "Cerrar sesión",
     passkeys_title: "Passkeys guardadas", passkeys_add: "Registrar passkey", back: "Volver",
     passkeys_no: "No hay passkeys registradas.", passkeys_delete_confirm: "¿Eliminar passkey?",
-    settings_title: "Cambiar contraseña y huella", label_user: "Usuario", label_newpassword: "Nueva contraseña",
-    ph_newpassword: "Nueva contraseña", label_enable_bio: "Habilitar autenticación biométrica", btn_save: "Guardar",
+    settings_title: "Cambiar contraseña y huella", label_user: "Usuario", label_newpassword: "Nueva contraseña",label_currentpassword: "Contraseña actual",ph_currentpassword:"Contraseña actual",
+    ph_newpassword: "Nueva contraseña", label_enable_bio: "Habilitar autenticación biométrica",msg_enter_current_pw:"Ingrese su contraseña",msg_current_pw_wrong:"Intente ingresar su contraseña nuevamente",msg_current_pw_required:"Ingrese su contraseña actual",msg_password_changed_success:"Contraseña ha sido cambiada exitosamente",btn_save: "Guardar",
     btn_cancel: "Cancelar", settings_saved: "Cambios guardados",
     label_add_bio: "Añadir biometría", btn_configure_bio: "Configurar biometría", biometric_title: "Configuración biométrica",
     biometric_placeholder: "Este es un placeholder para la configuración biométrica. Cuando se implemente nativamente esta pantalla llamará a las APIs del sistema.",
@@ -67,13 +67,13 @@ const translations = {
     tutorial_title: "欢迎使用 SecurePass", tutorial_p1: "首先使用“注册”按钮注册用户。之后您可以登录并启用指纹。",
     got_it: "知道了", dont_show: "不再显示",
     msg_complete_fields: "请填写用户名和密码", msg_no_user: "未注册用户。请先注册。",
-    msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 4 个字符）。", msg_pw_not_same: "密码不匹配。",msg_pw_not_special:"密码必须至少包含 1 个特殊字符",
+    msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 4 个字符）。", msg_pw_not_same: "密码不匹配。",msg_pw_not_special:"密码必须至少包含 1 个特殊字符",msg_uppercase_required:"密码必须至少包含 1 个大写字母",
     msg_credentials_incorrect: "凭证错误", msg_auth_failed: "身份验证失败",
     home_change: "设置", home_passkeys: "查看 passkeys", home_logout: "登出",
     passkeys_title: "已保存的 passkeys", passkeys_add: "注册 passkey", back: "返回",
     passkeys_no: "没有已保存的 passkeys。", passkeys_delete_confirm: "删除该 passkey？",
-    settings_title: "更改密码与指纹", label_user: "用户名", label_newpassword: "新密码",
-    ph_newpassword: "新密码", label_enable_bio: "启用生物识别认证", btn_save: "保存",
+    settings_title: "更改密码与指纹", label_user: "用户名", label_newpassword: "新密码",label_currentpassword: "当前密码",ph_currentpassword:"当前密码",
+    ph_newpassword: "新密码", label_enable_bio: "启用生物识别认证",msg_enter_current_pw: "请输入您当前的密码",msg_current_pw_wrong: "请重试输入您当前的密码",msg_current_pw_required: "请输入您当前的密码",msg_password_changed_success: "密码已成功更改" ,btn_save: "保存",
     btn_cancel: "取消", settings_saved: "已保存更改",
     label_add_bio: "添加生物识别", btn_configure_bio: "配置生物识别", biometric_title: "生物识别配置",
     biometric_placeholder: "这是生物识别配置的占位符。实现原生功能时，这个界面将调用系统的生物识别注册/验证接口。",
@@ -196,10 +196,12 @@ function initRegisterPage(){
     const u = regUser.value.trim();
     const p = regPass.value;
     const p2 = regPass2.value;
+    const hasUppercase = /[A-Z]/.test(p); 
     if(!u || !p){ msg.textContent = t('msg_complete_fields'); return; }
     if(p.length < 4){ msg.textContent = t('msg_short_pw'); return; }
     if(p != p2){ msg.textContent = t('msg_pw_not_same'); return; }//if para verificar contraseña 
-    if(!p.includes(specialChar)){ msg.textContent = t('msg_pw_not_special'); return; }//if para verificar caracteres especiales
+    if(!hasUppercase) {msg.textContent = t('msg_uppercase_required');return}// verifica mayuscula
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(p)) {msg.textContent = t('msg_pw_not_special');return;}//if para verificar caracteres especiales
     const hash = await sha256Base64(p);
     localStorage.setItem(KEY_USER, u);
     localStorage.setItem(KEY_HASH, hash);
@@ -299,11 +301,14 @@ window.removePasskey = function(idx){
 function initSettingsPage(){
   const su = getStoredUser(); if(!su){ goTo('register.html'); return; }
   const currentUser = $('currentUser'); if(currentUser) currentUser.value = su;
-  const chk = $('enableBiometric'); if(chk) chk.checked = isBioEnabled();
-  const btnSave = $('btnSave'); const newPwd = $('newPassword'); const msg = $('settingsMsg');
+  //const chk = $('enableBiometric'); if(chk) chk.checked = isBioEnabled();
+  const btnSave = $('btnSave');
+  const newPwd = $('newPassword');
+  const currentPwd = $('currentPassword'); // <<< AÑADIDO
+  const msg = $('settingsMsg');
   const btnGotoBiometric = $('btnGotoBiometric'); const bioStatus = $('bioStatus');
 
-  if(bioStatus) bioStatus.textContent = isBioEnabled() ? t('biometric_configured') : t('no_biometric_registered');
+  //if(bioStatus) bioStatus.textContent = isBioEnabled() ? t('biometric_configured') : t('no_biometric_registered');
 
   if(btnGotoBiometric){
     btnGotoBiometric.addEventListener('click', (e) => {
@@ -314,20 +319,35 @@ function initSettingsPage(){
 
   if(btnSave) btnSave.addEventListener('click', async () => {
     const np = newPwd.value.trim();
-    const enable = chk.checked;
+    const cp = currentPwd.value; //contraseña actual
+    //const enable = chk.checked;
     const newName = currentUser.value.trim();
 
     if(newName && newName !== su) localStorage.setItem(KEY_USER, newName);
 
+   
     if(np){
-      if(np.length < 4){ msg.textContent = t('msg_short_pw'); msg.style.color = '#ff5555'; return; }
+      if(!cp) { msg.textContent = t('msg_current_pw_required');return; }
+      const hasUppercase = /[A-Z]/.test(np); 
+      const storedHash = localStorage.getItem(KEY_HASH); 
+      const currentHash = await sha256Base64(cp); 
+      if(currentHash !== storedHash) {msg.textContent = t('msg_current_pw_wrong');return;}
+      if(np.length < 4){ msg.textContent = t('msg_short_pw'); return;}
+      if(!hasUppercase) {msg.textContent = t('msg_uppercase_required');return}
+      if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(np)) {msg.textContent = t('msg_pw_not_special');return;}
+
+      // guardar
       const h = await sha256Base64(np);
       localStorage.setItem(KEY_HASH, h);
       newPwd.value = '';
-    }
+      currentPwd.value = '';
+
+      msg.textContent = t('msg_password_changed_success');}
+    else if (cp && !np) {msg.textContent = t('msg_new_pw_empty');return;}
 
     localStorage.setItem(KEY_BIO, enable ? 'true' : 'false');
-    msg.textContent = t('settings_saved'); msg.style.color = '#4CAF50';
+    msg.textContent = t('settings_saved'); 
+    msg.style.color = '#4CAF50';
     setTimeout(()=> goTo('home.html'), 900);
   });
 }
