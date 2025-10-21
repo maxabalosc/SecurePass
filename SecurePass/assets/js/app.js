@@ -176,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
   if(page === 'home') initHomePage();
   if(page === 'passkeys') initPasskeysPage();
   if(page === 'settings') initSettingsPage();
-  if(page === 'biometric') initBiometricPage();
 });
 
 
@@ -241,18 +240,6 @@ function initLoginPage(){
     passwordInput.type = passwordInput.type === 'password' ? 'text' : 'password';
     togglePwd.textContent = passwordInput.type==='password' ? '👁':'🛇';
   });
-
-  if(btnFingerprint) btnFingerprint.addEventListener('click', async () => {
-    if(!isBioEnabled()){
-      showMsgOnPage(msgSelector,'no_biometric_registered');
-      return;
-    }
-    const attempt = prompt(t('fingerprint_label') + ': ' + t('ph_password'));
-    if(!attempt) return;
-    const h = await sha256Base64(attempt);
-    if(h === getStoredHash()) goTo('home.html'); else showMsgOnPage(msgSelector,'msg_auth_failed');
-  });
-}
 
 
 function initHomePage(){
@@ -352,18 +339,4 @@ function initSettingsPage(){
   });
 }
 
-function initBiometricPage(){
-  if(!getStoredUser()){ goTo('register.html'); return; }
 
-  const btnConfigure = $('btnConfigureBiometric');
-  const bioMsg = $('bioMsg');
-
-  if(btnConfigure){
-    btnConfigure.addEventListener('click', async () => {
-      localStorage.setItem(KEY_BIO, 'true');
-      bioMsg.textContent = t('biometric_configured');
-      bioMsg.style.color = '#4CAF50';
-      setTimeout(()=> goTo('settings.html'), 900);
-    });
-  }
-}
