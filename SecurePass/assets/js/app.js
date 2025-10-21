@@ -270,7 +270,7 @@ function initHomePage(){
   });
 }
 
-/* ---------------- Passkeys page ---------------- */
+/* ---------------- Passkeys ---------------- */
 function initPasskeysPage(){
   const su = getStoredUser(); if(!su){ goTo('register.html'); return; }
   const listEl = $('passkeysList');
@@ -301,6 +301,7 @@ function initPasskeysPage(){
     });
   }
 
+/* ---------------- Funcion Passkeys ---------------- */
   if(btnAdd) btnAdd.addEventListener('click', async () => {
     const name = prompt(t('passkeys_add')) || `Passkey ${Date.now()}`;
     const idBytes = crypto.getRandomValues(new Uint8Array(12));
