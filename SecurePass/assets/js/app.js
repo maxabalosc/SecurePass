@@ -10,7 +10,7 @@ const translations = {
     brand_title: "SECUREPASS", brand_sub: "Secure access",
     register_title: "Create your account",
     login_title: "Sign in", label_username: "Username", label_password: "Password", label_regPassword2: "Re-enter password",
-    ph_username: "Username", ph_password: "Password", ph_password2: "Re-enter password", hint_min8: "Minimum 8 characters.",
+    ph_username: "Username", ph_password: "Password", ph_password2: "Re-enter password", ph_newpassword2: "Re-enter password", hint_min8: "Minimum 8 characters.",
     btn_login: "Sign in", btn_register: "Register",
     tutorial_title: "Welcome to SecurePass", tutorial_p1: "First, register a user using the Register button.",
     got_it: "Got it", dont_show: "Don't show again",
@@ -24,7 +24,7 @@ const translations = {
     passkeys_title: "Stored passkeys", passkeys_add: "Register passkey", back: "Back",
     passkeys_no: "No passkeys stored.", passkeys_delete_confirm: "Delete passkey?",
     settings_title: "Change password", label_user: "User", label_newpassword: "New password", label_currentpassword: "Current Password", ph_currentpassword: "Current password",
-    ph_newpassword: "New password", msg_enter_current_pw: "Please enter your current password", msg_current_pw_wrong: "Try entering your current password again", msg_current_pw_required: "Enter your current password",
+    ph_newpassword: "New password", label_newpassword2: " ", msg_enter_current_pw: "Please enter your current password", msg_current_pw_wrong: "Try entering your current password again", msg_current_pw_required: "Enter your current password",
     msg_password_changed_success: "Password has been successfully changed", btn_save: "Save",
     btn_cancel: "Back", settings_saved: "Changes saved",
     label_welcome: "Welcome", home_welcome_prefix: "Welcome",
@@ -34,7 +34,7 @@ const translations = {
     brand_title: "SECUREPASS", brand_sub: "Acceso seguro",
     register_title: "Crea tu cuenta",
     login_title: "Iniciar sesión", label_username: "Usuario", label_password: "Contraseña", label_regPassword2: "Confirme contraseña",
-    ph_username: "Usuario", ph_password: "Contraseña", ph_password2: "Confirme contraseña", hint_min8: "Mínimo 8 caracteres.",
+    ph_username: "Usuario", ph_password: "Contraseña", ph_password2: "Confirme contraseña", ph_newpassword2: "Confirme contraseña", hint_min8: "Mínimo 8 caracteres.",
     btn_login: "Ingresar", btn_register: "Registrar",
     tutorial_title: "Bienvenido a SecurePass", tutorial_p1: "Primero registra un usuario usando el botón Registrar.",
     got_it: "Entendido", dont_show: "No mostrar nuevamente",
@@ -48,7 +48,7 @@ const translations = {
     passkeys_title: "Passkeys guardadas", passkeys_add: "Registrar passkey", back: "Volver",
     passkeys_no: "No hay passkeys registradas.", passkeys_delete_confirm: "¿Eliminar passkey?",
     settings_title: "Cambiar contraseña", label_user: "Usuario", label_newpassword: "Nueva contraseña", label_currentpassword: "Contraseña actual", ph_currentpassword: "Contraseña actual",
-    ph_newpassword: "Nueva contraseña", msg_enter_current_pw:"Ingrese su contraseña", msg_current_pw_wrong:"Intente ingresar su contraseña nuevamente", msg_current_pw_required:"Ingrese su contraseña actual",
+    ph_newpassword: "Nueva contraseña", label_newpassword2: " ", msg_enter_current_pw:"Ingrese su contraseña", msg_current_pw_wrong:"Intente ingresar su contraseña nuevamente", msg_current_pw_required:"Ingrese su contraseña actual",
     msg_password_changed_success: "Contraseña ha sido cambiada exitosamente", btn_save: "Guardar",
     btn_cancel: "Volver", settings_saved: "Cambios guardados",
     label_welcome: "Bienvenido", home_welcome_prefix: "Bienvenido",
@@ -58,7 +58,7 @@ const translations = {
     brand_title: "SECUREPASS", brand_sub: "安全访问",
     register_title: "创建帐户",
     login_title: "登录", label_username: "用户名", label_password: "密码", label_regPassword2: "确认密码",
-    ph_username: "用户名", ph_password: "密码", ph_password2: "确认密码", hint_min8: "至少 8 个字符。",
+    ph_username: "用户名", ph_password: "密码", ph_password2: "确认密码", ph_newpassword2: "确认密码", hint_min8: "至少 8 个字符。",
     btn_login: "登录", btn_register: "注册",
     tutorial_title: "欢迎使用 SecurePass", tutorial_p1: "首先使用“注册”按钮注册用户。",
     got_it: "知道了", dont_show: "不再显示",
@@ -72,7 +72,7 @@ const translations = {
     passkeys_title: "已保存的 passkeys", passkeys_add: "注册 passkey", back: "返回",
     passkeys_no: "没有已保存的 passkeys。", passkeys_delete_confirm: "删除该 passkey？",
     settings_title: "更改密码", label_user: "用户名", label_newpassword: "新密码", label_currentpassword: "当前密码", ph_currentpassword: "当前密码",
-    ph_newpassword: "新密码", msg_enter_current_pw: "请输入您当前的密码", msg_current_pw_wrong: "请重试输入您当前的密码", msg_current_pw_required: "请输入您当前的密码",
+    ph_newpassword: "新密码", label_newpassword2: " ", msg_enter_current_pw: "请输入您当前的密码", msg_current_pw_wrong: "请重试输入您当前的密码", msg_current_pw_required: "请输入您当前的密码",
     msg_password_changed_success: "密码已成功更改", btn_save: "保存",
     btn_cancel: "取消", settings_saved: "已保存更改",
     label_welcome: "欢迎", home_welcome_prefix: "欢迎",
@@ -278,13 +278,23 @@ function initPasskeysPage(){
 
   function renderPasskeysList(){
     if(!listEl) return;
-    const arr = getPasskeys(); listEl.innerHTML = '';
-    if(arr.length === 0){ listEl.innerHTML = `<div class="muted">${t('passkeys_no')}</div>`; return; }
+    const arr = getPasskeys(); 
+    listEl.innerHTML = '';
+    if(arr.length === 0){
+      listEl.innerHTML = `<div class="muted">${t('passkeys_no')}</div>`;
+      return;
+    }
+
     arr.forEach((p,i) => {
       const node = document.createElement('div');
       node.className = 'passkey-item';
-      node.innerHTML = `<div><strong>${p.name}</strong><div class="muted small">${new Date(p.createdAt).toLocaleString()}</div></div>
-                        <div><button class="btn ghost" data-idx="${i}">Delete</button></div>`;
+      node.innerHTML = `
+        <div>
+          <strong>${p.name}</strong>
+          ${p.desc ? `<div class="muted small">${p.desc}</div>` : ''}
+          <div class="muted small">${new Date(p.createdAt).toLocaleString()}</div>
+        </div>
+        <div><button class="btn ghost" data-idx="${i}">Delete</button></div>`;
       listEl.appendChild(node);
     });
 
@@ -301,17 +311,27 @@ function initPasskeysPage(){
     });
   }
 
-/* ---------------- Funcion Passkeys ---------------- */
+  /* ---------------- Función Passkeys ---------------- */
   if(btnAdd) btnAdd.addEventListener('click', async () => {
-    const name = prompt(t('passkeys_add')) || `Passkey ${Date.now()}`;
+    const name = prompt(t('passkeys_add'))?.trim();
+    if(!name) return alert('Please enter a valid passkey name.');
+
+    const desc = prompt('Enter a short description (e.g., Site and User):')?.trim() || '';
+
     const idBytes = crypto.getRandomValues(new Uint8Array(12));
     const idB64 = btoa(String.fromCharCode(...idBytes));
-    const pk = { id: idB64, name, createdAt: new Date().toISOString() };
-    const arr = getPasskeys(); arr.push(pk); savePasskeys(arr); renderPasskeysList(); alert(t('passkeys_add') + ' — OK');
+
+    const pk = { id: idB64, name, desc, createdAt: new Date().toISOString() };
+    const arr = getPasskeys();
+    arr.push(pk);
+    savePasskeys(arr);
+    renderPasskeysList();
+    alert('Passkey saved successfully');
   });
 
   renderPasskeysList();
 }
+
 
 /* ---------------- Settings ---------------- */
 function initSettingsPage(){
@@ -319,24 +339,31 @@ function initSettingsPage(){
   const currentUser = $('currentUser'); if(currentUser) currentUser.value = su;
   const btnSave = $('btnSave');
   const newPwd = $('newPassword');
+  const newPwd2 = $('newPassword2'); // nueva confirmación agregada
   const currentPwd = $('currentPassword');
   const msg = $('settingsMsg');
 
   if(btnSave) btnSave.addEventListener('click', async () => {
     const np = newPwd?.value.trim() || '';
+    const np2 = newPwd2?.value || '';
     const cp = currentPwd?.value || '';
     const newName = currentUser?.value.trim() || '';
 
     if(newName && newName !== su) localStorage.setItem(KEY_USER, newName);
 
     if(np){
-      
+      // require current password to change
       if(!cp) { if(msg) msg.textContent = t('msg_current_pw_required'); return; }
+
+      // verify current password
       const storedHash = getStoredHash();
       const currentHash = await sha256Base64(cp);
       if(currentHash !== storedHash) { if(msg) msg.textContent = t('msg_current_pw_wrong'); return; }
 
-      // validar nueva contraseña
+      // check new passwords match
+      if(np !== np2) { if(msg) msg.textContent = t('msg_pw_not_same'); return; }
+
+      // validate new password
       const check = passwordMeetsRequirements(np);
       if(!check.ok){
         if(msg){
@@ -355,6 +382,7 @@ function initSettingsPage(){
       const h = await sha256Base64(np);
       localStorage.setItem(KEY_HASH, h);
       newPwd.value = '';
+      newPwd2.value = '';
       currentPwd.value = '';
       if(msg){ msg.textContent = t('msg_password_changed_success'); msg.style.color = '#4CAF50'; }
       setTimeout(()=> goTo('home.html'), 900);
@@ -367,4 +395,3 @@ function initSettingsPage(){
     setTimeout(()=> goTo('home.html'), 900);
   });
 }
-
