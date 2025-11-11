@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; connect-src 'self'">
   <title>SecurePass — Register</title>
   <link rel="stylesheet" href="assets/css/style.css" />
 </head>
@@ -70,7 +71,7 @@
   <div id="tutorialModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="tutorialTitle">
     <div class="modal-card">
       <h3 id="tutorialTitle" data-i18n="tutorial_title">Welcome to SecurePass</h3>
-      <p data-i18n="tutorial_p1">First, register a user using the Register button. Afterwards you can sign in and enable fingerprint.</p>
+      <p data-i18n="tutorial_p1">First, register a user using the Register button. Afterwards you can sign in and enable token when promped (its very important you create and remember token, after creating it you wont be able to see it or change it).</p>
       <div class="modal-actions">
         <button id="tutorialGotIt" class="btn primary" data-i18n="got_it">Got it</button>
         <button id="tutorialDontShow" class="btn ghost" data-i18n="dont_show">Don't show again</button>

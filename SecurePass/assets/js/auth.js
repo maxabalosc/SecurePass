@@ -1,8 +1,9 @@
 // assets/js/auth.js
 
-import { getStoredUser, setStoredUser, setStoredHash, getStoredHash } from './storage.js';
+import { getStoredUser, setStoredUser, setStoredPasswordRecord, getStoredPasswordRecord } from './storage.js';
 import { sha256Base64, $ , goTo, showMsgOnPage } from './utils.js';
-import { t, applyTranslations } from './i18n.js';
+import { t } from './i18n.js';
+import { randomBytes, toBase64, fromBase64, deriveBitsForPasswordRecord, deriveKeyFromPassword } from './crypto-utils.js';
 
 export function initRegisterPage(){
   if(getStoredUser()){ goTo('login.html'); return; }
@@ -13,7 +14,6 @@ export function initRegisterPage(){
   const regPass2 = $('regPassword2') || $('password2');
   const msg = $('registerMsg') || $('msg');
 
-  // register user and tutorial
   const m = $('tutorialModal'); if(m && localStorage.getItem('securepass_tutorial_hide') !== 'true') m.classList.remove('hidden');
 
   if(!btnRegister) return;
@@ -24,8 +24,7 @@ export function initRegisterPage(){
 
     if(!u || !p){ if(msg) msg.textContent = t('msg_complete_fields'); return; }
 
-    // password validation
-    const check = passwordMeetsRequirements(p);
+    const check = window.passwordMeetsRequirements ? window.passwordMeetsRequirements(p) : { ok:true };
     if(!check.ok){
       if(msg){
         switch(check.reason){
@@ -41,9 +40,12 @@ export function initRegisterPage(){
 
     if(p !== p2){ if(msg) msg.textContent = t('msg_pw_not_same'); return; }
 
-    const hash = await sha256Base64(p);
+    const salt = randomBytes(16);
+    const iterations = 200_000;
+    const bits = await deriveBitsForPasswordRecord(p, salt, iterations); 
+    const record = { salt: toBase64(salt.buffer), hash: toBase64(bits), iterations };
     setStoredUser(u);
-    setStoredHash(hash);
+    setStoredPasswordRecord(record);
     localStorage.setItem('securepass_tutorial_hide','true');
 
     if(msg){ msg.textContent = t('msg_registered'); msg.style.color = '#4CAF50'; }
@@ -64,13 +66,50 @@ export function initLoginPage(){
 
   if(btnLogin) btnLogin.addEventListener('click', async () => {
     const pass = passwordInput.value;
-    if(!pass){ showMsgOnPage(msgSelector, 'msg_complete_fields', false, t); return; }
-    const hash = await sha256Base64(pass);
-    if(hash === getStoredHash()){
-      goTo('home.html');
-    } else {
-      showMsgOnPage(msgSelector, 'msg_credentials_incorrect', false, t);
+    if(!pass){ showMsgOnPage(msgSelector, 'msg_complete_fields', false, (k)=>k); return; }
+
+    const rec = getStoredPasswordRecord();
+    if(!rec){ showMsgOnPage(msgSelector, 'msg_no_user', false, (k)=>k); return; }
+
+    try {
+      
+      const saltBuf = fromBase64(rec.salt);
+      const bits = await deriveBitsForPasswordRecord(pass, saltBuf, rec.iterations);
+      const b64 = toBase64(bits);
+      if(b64 !== rec.hash){
+        showMsgOnPage(msgSelector, 'msg_credentials_incorrect', false, (k)=>k);
+        return;
+      }
+    } catch(err){
+      console.error('Password verify error', err);
+      showMsgOnPage(msgSelector, 'msg_credentials_incorrect', false, (k)=>k);
+      return;
     }
+
+    window.__SECUREPASS_SESSION = window.__SECUREPASS_SESSION || {};
+    window.__SECUREPASS_SESSION.aesKey = null;
+    window.__SECUREPASS_SESSION.passkeys = [];
+
+    try {
+      const ss = await import('./secure-storage.js');
+      
+      const res = await ss.loadEncryptedPasskeys({ password: pass });
+      if(res && res.aesKey){
+        window.__SECUREPASS_SESSION.aesKey = res.aesKey;
+        window.__SECUREPASS_SESSION.passkeys = Array.isArray(res.arr) ? res.arr : [];
+      } else {
+        
+        window.__SECUREPASS_SESSION.aesKey = null;
+        window.__SECUREPASS_SESSION.passkeys = res && Array.isArray(res) ? res : [];
+      }
+    } catch(err){
+      console.warn('Could not load encrypted passkeys:', err);
+      window.__SECUREPASS_SESSION.aesKey = null;
+      window.__SECUREPASS_SESSION.passkeys = [];
+    }
+
+    passwordInput.value = '';
+    goTo('home.html');
   });
 
   if(togglePwd) togglePwd.addEventListener('click', ()=> {
@@ -87,5 +126,13 @@ export function initHomePage(){
 
   const gotoSettings = $('gotoSettings'); if(gotoSettings) gotoSettings.addEventListener('click',(e)=>{ e.preventDefault(); goTo('settings.html'); });
   const gotoPasskeys = $('gotoPasskeys'); if(gotoPasskeys) gotoPasskeys.addEventListener('click',(e)=>{ e.preventDefault(); goTo('passkeys.html'); });
-  const btnLogout = $('btnLogout'); if(btnLogout) btnLogout.addEventListener('click', ()=> { goTo('login.html'); });
+
+  const btnLogout = $('btnLogout');
+  if(btnLogout) btnLogout.addEventListener('click', ()=> {
+    if(window.__SECUREPASS_SESSION){
+      window.__SECUREPASS_SESSION.aesKey = null;
+      window.__SECUREPASS_SESSION.passkeys = [];
+    }
+    goTo('login.html');
+  });
 }

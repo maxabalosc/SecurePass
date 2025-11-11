@@ -1,8 +1,9 @@
 // assets/js/settings.js
 
-import { getStoredUser, getStoredHash, setStoredHash } from './storage.js';
+import { getStoredUser, getStoredPasswordRecord, setStoredPasswordRecord } from './storage.js';
 import { $ , sha256Base64, goTo, showMsgOnPage } from './utils.js';
 import { t } from './i18n.js';
+import { randomBytes, toBase64, fromBase64, deriveBitsForPasswordRecord } from './crypto-utils.js';
 
 export function passwordMeetsRequirements(pw){
   if(!pw || typeof pw !== 'string') return { ok:false, reason: 'empty' };
@@ -31,18 +32,23 @@ export function initSettingsPage(){
     if(newName && newName !== su) localStorage.setItem('securepass_user', newName);
 
     if(np){
-      // require current password to change
+      
       if(!cp) { if(msg) msg.textContent = t('msg_current_pw_required'); return; }
 
-      // verify current password
-      const storedHash = getStoredHash();
-      const currentHash = await sha256Base64(cp);
-      if(currentHash !== storedHash) { if(msg) msg.textContent = t('msg_current_pw_wrong'); return; }
+      const rec = getStoredPasswordRecord();
+      if(!rec) { if(msg) msg.textContent = t('msg_current_pw_wrong'); return; }
 
-      // check new passwords match
+      try {
+        const saltBuf = fromBase64(rec.salt);
+        const bits = await deriveBitsForPasswordRecord(cp, saltBuf, rec.iterations);
+        const b64 = toBase64(bits);
+        if(b64 !== rec.hash){ if(msg) msg.textContent = t('msg_current_pw_wrong'); return; }
+      } catch(e){
+        if(msg) msg.textContent = t('msg_current_pw_wrong'); return;
+      }
+
       if(np !== np2) { if(msg) msg.textContent = t('msg_pw_not_same'); return; }
 
-      // validate new password
       const check = passwordMeetsRequirements(np);
       if(!check.ok){
         if(msg){
@@ -57,9 +63,26 @@ export function initSettingsPage(){
         return;
       }
 
-      // save new password
-      const h = await sha256Base64(np);
-      setStoredHash(h);
+      const session = window.__SECUREPASS_SESSION || {};
+      const passkeysArr = Array.isArray(session.passkeys) ? session.passkeys : [];
+
+      const newSalt = randomBytes(16);
+      const iterations = 200_000;
+      const newBits = await deriveBitsForPasswordRecord(np, newSalt, iterations);
+      const newRecord = { salt: toBase64(newSalt.buffer), hash: toBase64(newBits), iterations };
+      setStoredPasswordRecord(newRecord);
+
+      
+      if(passkeysArr.length > 0){
+        try {
+          const { saveEncryptedPasskeys } = await import('./secure-storage.js');
+          await saveEncryptedPasskeys(passkeysArr, { password: np });
+        } catch(err){
+          console.warn('Failed to re-encrypt passkeys with new password:', err);
+        
+        }
+      }
+
       newPwd.value = '';
       newPwd2.value = '';
       currentPwd.value = '';

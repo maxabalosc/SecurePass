@@ -6,11 +6,10 @@ import { initPasskeysPage } from './passkeys.js';
 import { initSettingsPage, passwordMeetsRequirements } from './settings.js';
 import { $ } from './utils.js';
 
-// expose password validator 
 window.passwordMeetsRequirements = passwordMeetsRequirements;
 
 document.addEventListener('DOMContentLoaded', () => {
-  // language selects
+  
   document.querySelectorAll('#langSelect').forEach(sel=>{
     sel.value = getLang();
     sel.addEventListener('change', (e)=> { setLang(e.target.value); });
@@ -20,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const page = document.body.dataset.page || '';
 
-  // tutorial modal buttons
   const btnGotIt = $('tutorialGotIt'); if(btnGotIt) btnGotIt.addEventListener('click', ()=> { const m = $('tutorialModal'); if(m) m.classList.add('hidden'); });
   const btnDontShow = $('tutorialDontShow'); if(btnDontShow) btnDontShow.addEventListener('click', ()=> { localStorage.setItem('securepass_tutorial_hide','true'); const m = $('tutorialModal'); if(m) m.classList.add('hidden'); });
 
-  // route initialization
   if(page === 'register') initRegisterPage();
   if(page === 'login') initLoginPage();
   if(page === 'home') initHomePage();

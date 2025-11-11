@@ -10,7 +10,7 @@ const translations = {
     login_title: "Sign in", label_username: "Username", label_password: "Password", label_regPassword2: "Re-enter password",
     ph_username: "Username", ph_password: "Password", ph_password2: "Re-enter password", ph_newpassword2: "Re-enter password", hint_min8: "Minimum 8 characters.",
     btn_login: "Sign in", btn_register: "Register",
-    tutorial_title: "Welcome to SecurePass", tutorial_p1: "First, register a user using the Register button.",
+    tutorial_title: "Welcome to SecurePass", tutorial_p1: "First, register a user using the Register button. Afterwards you can sign in and enable token when promped its very important you create and remember token, after creating it you wont be able to see it or change it.",
     got_it: "Got it", dont_show: "Don't show again",
     msg_complete_fields: "Please complete username and password", msg_no_user: "No user registered. Please register first.",
     msg_registered: "User registered successfully", msg_short_pw: "Password is too short (min 8 chars).",
@@ -26,7 +26,7 @@ const translations = {
     msg_password_changed_success: "Password has been successfully changed", btn_save: "Save",
     btn_cancel: "Back", settings_saved: "Changes saved",
     label_welcome: "Welcome", home_welcome_prefix: "Welcome",
-    msg_new_pw_empty: "Enter a new password."
+    msg_new_pw_empty: "Enter a new password.", token: "token"
   },
   es: {
     brand_title: "SECUREPASS", brand_sub: "Acceso seguro",
@@ -34,7 +34,7 @@ const translations = {
     login_title: "Iniciar sesión", label_username: "Usuario", label_password: "Contraseña", label_regPassword2: "Confirme contraseña",
     ph_username: "Usuario", ph_password: "Contraseña", ph_password2: "Confirme contraseña", ph_newpassword2: "Confirme contraseña", hint_min8: "Mínimo 8 caracteres.",
     btn_login: "Ingresar", btn_register: "Registrar",
-    tutorial_title: "Bienvenido a SecurePass", tutorial_p1: "Primero registra un usuario usando el botón Registrar.",
+    tutorial_title: "Bienvenido a SecurePass", tutorial_p1: "Primero, regístrese como usuario usando el botón Registrar. Después, podrá iniciar sesión y habilitar el token cuando se le solicite, es muy importante que cree y recuerde el token, ya que una vez creado no podrá verlo ni modificarlo).",
     got_it: "Entendido", dont_show: "No mostrar nuevamente",
     msg_complete_fields: "Completa usuario y contraseña", msg_no_user: "No hay usuario registrado. Regístrate primero.",
     msg_registered: "Usuario registrado correctamente", msg_short_pw: "La contraseña es muy corta (min 8 caracteres).",
@@ -50,7 +50,7 @@ const translations = {
     msg_password_changed_success: "Contraseña ha sido cambiada exitosamente", btn_save: "Guardar",
     btn_cancel: "Volver", settings_saved: "Cambios guardados",
     label_welcome: "Bienvenido", home_welcome_prefix: "Bienvenido",
-    msg_new_pw_empty: "Ingrese una nueva contraseña."
+    msg_new_pw_empty: "Ingrese una nueva contraseña.", token: "token"
   },
   zh: {
     brand_title: "SECUREPASS", brand_sub: "安全访问",
@@ -58,7 +58,7 @@ const translations = {
     login_title: "登录", label_username: "用户名", label_password: "密码", label_regPassword2: "确认密码",
     ph_username: "用户名", ph_password: "密码", ph_password2: "确认密码", ph_newpassword2: "确认密码", hint_min8: "至少 8 个字符。",
     btn_login: "登录", btn_register: "注册",
-    tutorial_title: "欢迎使用 SecurePass", tutorial_p1: "首先使用“注册”按钮注册用户。",
+    tutorial_title: "欢迎使用 SecurePass", tutorial_p1: "首先，点击“注册”按钮注册用户。之后，您可以登录并在提示时启用令牌 创建并记住令牌非常重要，创建后您将无法查看或更改它。",
     got_it: "知道了", dont_show: "不再显示",
     msg_complete_fields: "请填写用户名和密码", msg_no_user: "未注册用户。请先注册。",
     msg_registered: "用户注册成功", msg_short_pw: "密码太短（至少 8 个字符）。",
@@ -74,7 +74,7 @@ const translations = {
     msg_password_changed_success: "密码已成功更改", btn_save: "保存",
     btn_cancel: "取消", settings_saved: "已保存更改",
     label_welcome: "欢迎", home_welcome_prefix: "欢迎",
-    msg_new_pw_empty: "请输入新密码。"
+    msg_new_pw_empty: "请输入新密码。", token: "token"
   }
 };
 
